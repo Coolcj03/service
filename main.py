@@ -82,5 +82,36 @@ async def models_test():
     except Exception as e:
         return {"message": f"Models import error: {str(e)}"}
 
+@app.get("/schemas-test")
+async def schemas_test():
+    """Test if Pydantic schemas can be imported"""
+    try:
+        # Try to import schemas
+        from schemas import (
+            ProductBase, ProductCreate, ProductUpdate, ProductResponse,
+            PartBase, PartCreate, PartUpdate, PartResponse,
+            TechnicianBase, TechnicianCreate, TechnicianUpdate, TechnicianResponse,
+            BookingBase, BookingCreate, BookingUpdate, BookingResponse,
+            FeedbackBase, FeedbackCreate, FeedbackUpdate, FeedbackResponse,
+            AdminUserBase, AdminUserCreate, AdminUserUpdate, AdminUserResponse,
+            LoginRequest, TokenResponse
+        )
+        
+        return {
+            "message": "All schemas imported successfully!",
+            "schemas": [
+                "ProductBase", "ProductCreate", "ProductUpdate", "ProductResponse",
+                "PartBase", "PartCreate", "PartUpdate", "PartResponse", 
+                "TechnicianBase", "TechnicianCreate", "TechnicianUpdate", "TechnicianResponse",
+                "BookingBase", "BookingCreate", "BookingUpdate", "BookingResponse",
+                "FeedbackBase", "FeedbackCreate", "FeedbackUpdate", "FeedbackResponse",
+                "AdminUserBase", "AdminUserCreate", "AdminUserUpdate", "AdminUserResponse",
+                "LoginRequest", "TokenResponse"
+            ]
+        }
+        
+    except Exception as e:
+        return {"message": f"Schemas import error: {str(e)}"}
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
