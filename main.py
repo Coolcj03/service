@@ -117,44 +117,73 @@ async def schemas_test():
 async def crud_test():
     """Test if CRUD operations can be imported"""
     try:
-        # Try to import CRUD functions
-        from crud import (
-            # Product CRUD
-            get_all_products, get_product_by_id, create_new_product, 
-            update_existing_product, delete_existing_product,
-            # Part CRUD
-            get_all_parts, get_part_by_id, create_new_part,
-            update_existing_part, delete_existing_part,
-            # Technician CRUD
-            get_all_technicians, get_technician_by_id, create_new_technician,
-            update_existing_technician, delete_existing_technician,
-            # Booking CRUD
-            get_all_bookings, get_booking_by_id, create_new_booking,
-            update_existing_booking, delete_existing_booking,
-            # Feedback CRUD
-            get_all_feedback, get_feedback_by_id, create_new_feedback,
-            update_existing_feedback, delete_existing_feedback,
-            # Admin CRUD
-            get_admin_by_email, create_admin_user, authenticate_user,
-            # Auth functions
-            create_access_token, verify_password, get_password_hash
-        )
+        # Try to import CRUD functions step by step
+        from crud import get_all_products
+        from crud import get_all_parts
+        from crud import get_all_technicians
+        from crud import get_all_bookings
+        from crud import get_all_feedback
+        from crud import create_admin_user
+        from crud import get_admin_user_by_email
+        from crud import authenticate_user
+        from crud import create_access_token
+        from crud import verify_password
+        from crud import get_password_hash
         
         return {
             "message": "All CRUD operations imported successfully!",
             "crud_functions": [
-                "Product CRUD: get_all_products, get_product_by_id, create_new_product, update_existing_product, delete_existing_product",
-                "Part CRUD: get_all_parts, get_part_by_id, create_new_part, update_existing_part, delete_existing_part",
-                "Technician CRUD: get_all_technicians, get_technician_by_id, create_new_technician, update_existing_technician, delete_existing_technician",
-                "Booking CRUD: get_all_bookings, get_booking_by_id, create_new_booking, update_existing_booking, delete_existing_booking",
-                "Feedback CRUD: get_all_feedback, get_feedback_by_id, create_new_feedback, update_existing_feedback, delete_existing_feedback",
-                "Admin CRUD: get_admin_by_email, create_admin_user, authenticate_user",
+                "Product CRUD: get_all_products",
+                "Part CRUD: get_all_parts", 
+                "Technician CRUD: get_all_technicians",
+                "Booking CRUD: get_all_bookings",
+                "Feedback CRUD: get_all_feedback",
+                "Admin CRUD: create_admin_user, get_admin_user_by_email, authenticate_user",
                 "Auth: create_access_token, verify_password, get_password_hash"
             ]
         }
         
     except Exception as e:
         return {"message": f"CRUD import error: {str(e)}"}
+
+@app.get("/crud-test-simple")
+async def crud_test_simple():
+    """Test basic CRUD imports one by one"""
+    try:
+        # Test each import individually
+        result = {}
+        
+        try:
+            from crud import get_all_products
+            result["products"] = "✅ OK"
+        except Exception as e:
+            result["products"] = f"❌ {str(e)}"
+            
+        try:
+            from crud import get_all_parts
+            result["parts"] = "✅ OK"
+        except Exception as e:
+            result["parts"] = f"❌ {str(e)}"
+            
+        try:
+            from crud import create_admin_user
+            result["admin_create"] = "✅ OK"
+        except Exception as e:
+            result["admin_create"] = f"❌ {str(e)}"
+            
+        try:
+            from crud import get_admin_user_by_email
+            result["admin_get"] = "✅ OK"
+        except Exception as e:
+            result["admin_get"] = f"❌ {str(e)}"
+            
+        return {
+            "message": "CRUD import test results",
+            "results": result
+        }
+        
+    except Exception as e:
+        return {"message": f"Test error: {str(e)}"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
