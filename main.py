@@ -40,13 +40,31 @@ async def test():
 async def db_test():
     """Test database connection"""
     try:
-        from database import test_connection
-        if test_connection():
-            return {"message": "Database connection successful!"}
+        # Import database module
+        import database
+        
+        # Test if we can access the engine
+        if hasattr(database, 'engine'):
+            return {"message": "Database module imported successfully!", "engine": "found"}
         else:
-            return {"message": "Database connection failed!"}
+            return {"message": "Database engine not found!"}
+            
     except Exception as e:
-        return {"message": f"Database error: {str(e)}"}
+        return {"message": f"Database import error: {str(e)}"}
+
+@app.get("/db-connect")
+async def db_connect():
+    """Test actual database connection"""
+    try:
+        from database import engine
+        
+        # Try to connect
+        with engine.connect() as conn:
+            result = conn.execute("SELECT 1")
+            return {"message": "Database connection successful!", "result": "connected"}
+            
+    except Exception as e:
+        return {"message": f"Database connection error: {str(e)}"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
