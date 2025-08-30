@@ -57,10 +57,11 @@ async def db_connect():
     """Test actual database connection"""
     try:
         from database import engine
+        from sqlalchemy import text
         
-        # Try to connect
+        # Try to connect with correct SQLAlchemy syntax
         with engine.connect() as conn:
-            result = conn.execute("SELECT 1")
+            result = conn.execute(text("SELECT 1"))
             return {"message": "Database connection successful!", "result": "connected"}
             
     except Exception as e:
