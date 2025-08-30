@@ -113,5 +113,48 @@ async def schemas_test():
     except Exception as e:
         return {"message": f"Schemas import error: {str(e)}"}
 
+@app.get("/crud-test")
+async def crud_test():
+    """Test if CRUD operations can be imported"""
+    try:
+        # Try to import CRUD functions
+        from crud import (
+            # Product CRUD
+            get_all_products, get_product_by_id, create_new_product, 
+            update_existing_product, delete_existing_product,
+            # Part CRUD
+            get_all_parts, get_part_by_id, create_new_part,
+            update_existing_part, delete_existing_part,
+            # Technician CRUD
+            get_all_technicians, get_technician_by_id, create_new_technician,
+            update_existing_technician, delete_existing_technician,
+            # Booking CRUD
+            get_all_bookings, get_booking_by_id, create_new_booking,
+            update_existing_booking, delete_existing_booking,
+            # Feedback CRUD
+            get_all_feedback, get_feedback_by_id, create_new_feedback,
+            update_existing_feedback, delete_existing_feedback,
+            # Admin CRUD
+            get_admin_by_email, create_admin_user, authenticate_user,
+            # Auth functions
+            create_access_token, verify_password, get_password_hash
+        )
+        
+        return {
+            "message": "All CRUD operations imported successfully!",
+            "crud_functions": [
+                "Product CRUD: get_all_products, get_product_by_id, create_new_product, update_existing_product, delete_existing_product",
+                "Part CRUD: get_all_parts, get_part_by_id, create_new_part, update_existing_part, delete_existing_part",
+                "Technician CRUD: get_all_technicians, get_technician_by_id, create_new_technician, update_existing_technician, delete_existing_technician",
+                "Booking CRUD: get_all_bookings, get_booking_by_id, create_new_booking, update_existing_booking, delete_existing_booking",
+                "Feedback CRUD: get_all_feedback, get_feedback_by_id, create_new_feedback, update_existing_feedback, delete_existing_feedback",
+                "Admin CRUD: get_admin_by_email, create_admin_user, authenticate_user",
+                "Auth: create_access_token, verify_password, get_password_hash"
+            ]
+        }
+        
+    except Exception as e:
+        return {"message": f"CRUD import error: {str(e)}"}
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
