@@ -1,6 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
+import os
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
 
 app = FastAPI(
     title="Mahadeva Electronics API",
@@ -30,6 +35,18 @@ async def health_check():
 async def test():
     """Simple test endpoint"""
     return {"message": "Test endpoint working!"}
+
+@app.get("/db-test")
+async def db_test():
+    """Test database connection"""
+    try:
+        from database import test_connection
+        if test_connection():
+            return {"message": "Database connection successful!"}
+        else:
+            return {"message": "Database connection failed!"}
+    except Exception as e:
+        return {"message": f"Database error: {str(e)}"}
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
