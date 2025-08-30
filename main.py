@@ -67,5 +67,20 @@ async def db_connect():
     except Exception as e:
         return {"message": f"Database connection error: {str(e)}"}
 
+@app.get("/models-test")
+async def models_test():
+    """Test if database models can be imported"""
+    try:
+        # Try to import models
+        from models import Base, Product, Part, Technician, Booking, Feedback, AdminUser
+        
+        return {
+            "message": "All models imported successfully!",
+            "models": ["Base", "Product", "Part", "Technician", "Booking", "Feedback", "AdminUser"]
+        }
+        
+    except Exception as e:
+        return {"message": f"Models import error: {str(e)}"}
+
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
