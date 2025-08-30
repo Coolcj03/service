@@ -161,6 +161,12 @@ class AdminUserBase(BaseModel):
 
 class AdminUserCreate(AdminUserBase):
     password: str
+    
+class AdminUserUpdate(BaseModel):
+    email: Optional[EmailStr] = None
+    password: Optional[str] = None
+    is_active: Optional[bool] = None
+
 
 class AdminUserResponse(AdminUserBase):
     id: int
@@ -169,3 +175,4 @@ class AdminUserResponse(AdminUserBase):
     
     class Config:
         from_attributes = True
+
